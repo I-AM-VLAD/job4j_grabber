@@ -12,7 +12,7 @@ import static org.quartz.TriggerBuilder.*;
 import static org.quartz.SimpleScheduleBuilder.*;
 
 public class AlertRabbit {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         try {
             Properties config = config();
             Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
