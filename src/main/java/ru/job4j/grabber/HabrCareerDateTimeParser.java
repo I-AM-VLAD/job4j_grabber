@@ -1,4 +1,3 @@
-/*
 package ru.job4j.grabber;
 
 import ru.job4j.grabber.DateTimeParser;
@@ -14,12 +13,8 @@ public class HabrCareerDateTimeParser implements DateTimeParser {
         System.out.println(dateTime);
         return dateTime;
     }
-    public static void main(String[] args) {
-        System.out.println(parse("2018-05-05T11:50:55+03:00"));
-    }
 }
 
- */
 
 
 
