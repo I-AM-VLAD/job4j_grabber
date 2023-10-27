@@ -12,15 +12,13 @@ import java.util.ArrayList;
 public class HabrCareerParse {
 
     private static final String SOURCE_LINK = "https://career.habr.com";
-    private static ArrayList<String> pageLinks = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        pageLinks.add("https://career.habr.com/vacancies/java_developer?page=1");
-        pageLinks.add("https://career.habr.com/vacancies/java_developer?page=2");
-        pageLinks.add("https://career.habr.com/vacancies/java_developer?page=3");
-        pageLinks.add("https://career.habr.com/vacancies/java_developer?page=4");
-        pageLinks.add("https://career.habr.com/vacancies/java_developer?page=5");
-        for (String page : pageLinks) {
+
+        for (int i = 1; i <= 5; i++) {
+            String string = "https://career.habr.com/vacancies/java_developer?page=";
+            String numberStr = Integer.toString(i);
+            String page = string + numberStr;
             Connection connection = Jsoup.connect(page);
             Document document = connection.get();
             Elements rows = document.select(".vacancy-card__inner");
