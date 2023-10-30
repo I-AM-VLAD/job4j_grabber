@@ -8,17 +8,25 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class HabrCareerParse {
+public class HabrCareerParse implements Parse {
 
     private static final String SOURCE_LINK = "https://career.habr.com";
+    private final DateTimeParser dateTimeParser;
+    private int id = 1;
 
-    public static void main(String[] args) throws IOException {
+    public HabrCareerParse(DateTimeParser dateTimeParser) {
+        this.dateTimeParser = dateTimeParser;
+    }
+
+    @Override
+    public List<Post> list(String link) throws IOException {
+       List<Post> rsl = new ArrayList<>();
 
         for (int i = 1; i <= 5; i++) {
-            String string = "https://career.habr.com/vacancies/java_developer?page=";
             String numberStr = Integer.toString(i);
-            String page = string + numberStr;
+            String page = link + numberStr;
             Connection connection = Jsoup.connect(page);
             Document document = connection.get();
             Elements rows = document.select(".vacancy-card__inner");
@@ -28,11 +36,12 @@ public class HabrCareerParse {
                 Element dateElement = row.select(".vacancy-card__date").first().child(0);
                 String dateTime = dateElement.attr("datetime");
                 String vacancyName = titleElement.text();
-                String link = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
-                String vacancyDescription = retrieveDescription(link);
-                System.out.printf("%s %s %s %s%n", vacancyName, link, dateTime, vacancyDescription);
+                String newLink = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
+                String vacancyDescription = retrieveDescription(newLink);
+                rsl.add(new Post(id++, vacancyName, newLink, vacancyDescription, dateTimeParser.parse(dateTime)));
             });
         }
+        return  rsl;
     }
 
     private static String retrieveDescription(String link) {
