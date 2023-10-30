@@ -1,4 +1,3 @@
-/*
 package ru.job4j.grabber;
 
 import org.jsoup.Connection;
@@ -31,18 +30,23 @@ public class HabrCareerParse {
                 String vacancyName = titleElement.text();
                 String link = String.format("%s%s", SOURCE_LINK, linkElement.attr("href"));
                 String vacancyDescription = retrieveDescription(link);
-                System.out.printf("%s %s %s%n", vacancyName, link, dateTime);
+                System.out.printf("%s %s %s %s%n", vacancyName, link, dateTime, vacancyDescription);
             });
         }
     }
 
-    private static String retrieveDescription(String link) throws IOException {
-        Connection connection = Jsoup.connect(link);
-        Document document = connection.get();
-        Elements row = document.select(".faded-content__body");
-        Element description =  row.select(".vacancy-description__text").first();
-        return description.text();
+    private static String retrieveDescription(String link) {
+        try {
+            Connection connection = Jsoup.connect(link);
+            Document document = connection.get();
+            Elements row = document.select(".faded-content__body");
+            Element description = row.select(".vacancy-description__text").first();
+            return description.text();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  null;
+        }
     }
 }
 
- */
+
