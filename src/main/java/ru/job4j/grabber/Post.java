@@ -10,6 +10,34 @@ public class Post {
     private String description;
     private LocalDateTime created;
 
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Post(int id, String title, String link, String description, LocalDateTime created) {
         this.id = id;
         this.title = title;
