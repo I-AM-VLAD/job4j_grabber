@@ -14,7 +14,7 @@ public class PsqlStore implements Store {
     public PsqlStore(Properties config) {
         try {
             Class.forName(config.getProperty("jdbc.driver"));
-            DriverManager.getConnection(
+            connection = DriverManager.getConnection(
                     config.getProperty("url"),
                     config.getProperty("username"),
                     config.getProperty("password"));
@@ -62,7 +62,7 @@ public class PsqlStore implements Store {
     public Post objectPost(ResultSet resultSet) throws SQLException {
         return new Post(
                 resultSet.getInt("id"),
-                resultSet.getString("title"),
+                resultSet.getString("name"),
                 resultSet.getString("link"),
                 resultSet.getString("description"),
                 resultSet.getTimestamp("created").toLocalDateTime()
@@ -93,7 +93,7 @@ public class PsqlStore implements Store {
     }
 
     public static void main(String[] args) {
-        try (InputStream in = PsqlStore.class.getClassLoader().getResourceAsStream("src/main/resources/db.properties")) {
+        try (InputStream in = PsqlStore.class.getClassLoader().getResourceAsStream("db.properties")) {
             Properties config = new Properties();
             config.load(in);
             PsqlStore psqlStore = new PsqlStore(config);
