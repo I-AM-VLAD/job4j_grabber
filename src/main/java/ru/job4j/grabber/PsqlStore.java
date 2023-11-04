@@ -91,24 +91,4 @@ public class PsqlStore implements Store {
             connection.close();
         }
     }
-
-    public static void main(String[] args) {
-        try (InputStream in = PsqlStore.class.getClassLoader().getResourceAsStream("db.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            PsqlStore psqlStore = new PsqlStore(config);
-            HabrCareerDateTimeParser dateTime = new HabrCareerDateTimeParser();
-            psqlStore.save(new Post(1, "name", "link", "description", dateTime.parse("2018-05-05T11:50:55+03:00")));
-            psqlStore.save(new Post(2, "name1", "link1", "description1", dateTime.parse("2019-05-05T11:50:55+03:00")));
-            List<Post> posts = new ArrayList<>();
-            posts = psqlStore.getAll();
-            for (Post post : posts) {
-                System.out.println(post);
-            }
-            System.out.println(psqlStore.findById(2));
-
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
-    }
 }
